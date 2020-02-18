@@ -34,8 +34,12 @@ class Graph:
 
     def get_neighbors(self, vertex):
         return self.verticies[vertex]
-    
+
     def dfs(self, starting_vertex):
+
+        # check and see if the vertex has a parent at all
+        if len(self.get_neighbors(starting_vertex)) == 0:
+            return -1
 
         s = Stack()
         visited = set()
@@ -45,6 +49,7 @@ class Graph:
 
             if vert not in visited:
                 visited.add(vert)
+
                 if len(self.get_neighbors(vert)) == 2:
                     parents = []
 
@@ -57,6 +62,7 @@ class Graph:
                     else:
                         s.push(parents[0])
                         s.push(parents[1])
+
                 else:
                     for neighbor in self.get_neighbors(vert):
                         s.push(neighbor)
@@ -72,6 +78,7 @@ def earliest_ancestor(ancestors, starting_node):
         graph.add_edge(i[1], i[0])
     print(graph.verticies)
     print(graph.dfs(starting_node))
+    return graph.dfs(starting_node)
 
 
 test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
