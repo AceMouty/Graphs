@@ -40,14 +40,26 @@ class Graph:
         s = Stack()
         visited = set()
         s.push(starting_vertex)
-
         while s.size() > 0:
             vert = s.pop()
 
             if vert not in visited:
                 visited.add(vert)
-                for neighbor in self.get_neighbors(vert):
-                    s.push(neighbor)
+                if len(self.get_neighbors(vert)) == 2:
+                    parents = []
+
+                    for neighbor in self.get_neighbors(vert):
+                        parents.append(neighbor)
+
+                    if parents[1] < parents[0]:
+                        s.push(parents[1])
+                        s.push(parents[0])
+                    else:
+                        s.push(parents[0])
+                        s.push(parents[1])
+                else:
+                    for neighbor in self.get_neighbors(vert):
+                        s.push(neighbor)
             if s.size() == 0:
                 return vert
 
@@ -58,8 +70,9 @@ def earliest_ancestor(ancestors, starting_node):
         graph.add_vertex(i[0])
         graph.add_vertex(i[1])
         graph.add_edge(i[1], i[0])
+    print(graph.verticies)
     print(graph.dfs(starting_node))
 
 
 test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
-earliest_ancestor(test_ancestors, 8)
+earliest_ancestor(test_ancestors, 6)
