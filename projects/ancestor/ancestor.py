@@ -10,6 +10,7 @@ How can we make a graph?
 BFS - Search for the earliest possible ancestor
 
 '''
+from stack import Stack
 
 
 class Graph:
@@ -31,14 +32,34 @@ class Graph:
         elif v2 not in self.verticies:
             raise IndexError(f"ERR: That Vertex does not exist: {v2}")
 
+    def get_neighbors(self, vertex):
+        return self.verticies[vertex]
+    
+    def dfs(self, starting_vertex):
+
+        s = Stack()
+        visited = set()
+        s.push(starting_vertex)
+
+        while s.size() > 0:
+            vert = s.pop()
+
+            if vert not in visited:
+                visited.add(vert)
+                for neighbor in self.get_neighbors(vert):
+                    s.push(neighbor)
+            if s.size() == 0:
+                return vert
+
 
 def earliest_ancestor(ancestors, starting_node):
     graph = Graph()
     for i in ancestors:
         graph.add_vertex(i[0])
         graph.add_vertex(i[1])
-        graph.add_edge(i[0], i[1])
-    print(graph.verticies)
+        graph.add_edge(i[1], i[0])
+    print(graph.dfs(starting_node))
+
 
 test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
-earliest_ancestor(test_ancestors, 6)
+earliest_ancestor(test_ancestors, 8)
