@@ -1,7 +1,7 @@
 import unittest
 from ancestor import earliest_ancestor
 
-class Test(unittest.TestCase):
+class Test(unittest.TestCase): 
 
     '''
        10
